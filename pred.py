@@ -84,6 +84,7 @@ def test(args):
     corpus = load_corpus(args.input)
     vocab, docs = corpus['vocab'], corpus['docs']
     n_vocab = len(vocab)
+    print("The vocabulary size is: ", n_vocab)
 
     doc_keys = docs.keys()
     X_docs = []
@@ -91,11 +92,15 @@ def test(args):
         X_docs.append(vecnorm(doc2vec(docs[k], n_vocab), 'logmax1', 0))
         del docs[k]
     X_docs = np.r_[X_docs]
+    print("The shape of X_docs is: ", X_docs.shape)
 
     ae = load_ae_model(args.load_model)
     doc_codes = ae.predict(X_docs)
+    print("The shape of docs_codes is: ", doc_codes.shape)
     dump_json(dict(zip(doc_keys, doc_codes.tolist())), args.output)
+    dump_json(dict(zip(doc_keys, X_docs.tolist())), args.embedding)
     print 'Saved doc codes file to %s' % args.output
+    print 'Saved doc embedding file to %s' % args.embedding
 
     if args.save_topics:
         topics_strength = get_topics_strength(ae, revdict(vocab), topn=10)
@@ -147,6 +152,7 @@ def save_topics_strength(topics_prob, out_file):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type=str, required=True, help='path to the input corpus file')
+    parser.add_argument('-e', '--embedding', type=str, required=True, help='path to the origin embedding file')
     parser.add_argument('-o', '--output', type=str, required=True, help='path to the output doc codes file')
     parser.add_argument('-st', '--save_topics', type=str, help='path to the output topics file')
     parser.add_argument('-sw', '--sample_words', type=str, help='path to the output sample words file')
