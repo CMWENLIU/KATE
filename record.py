@@ -1,4 +1,5 @@
 running records on KATE:
+python construct_20news.py -train train/allnews/ -test test/allnews/ -o outdir
 python train.py -i outdir/train.corpus  -nv 9000 --noise gs  -ctype kcomp -nd 2000
 python pred.py -i bbcdata_prepare/train.corpus  -lm model  -o output/training.txt -e tr_embedding.txt
 python pred.py -i bbcdata_prepare/test.corpus  -lm model  -o output/test.txt -e te_embedding.txt
