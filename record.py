@@ -1,5 +1,8 @@
 running records on KATE:
 
+python construct_20news.py -train mixmodel/mixdata/ -test test/allnews/ -o mixmodel/classf_test/
+python construct_20news.py -train mixmodel/mixdata/ -test train/allnews/ -o mixmodel/classf_train/
+-------------------------------------------
 python construct_20news.py -train train/allnews/ -test test/allnews/ -o outdir
 python train.py -i outdir/train.corpus  -nv 9000 --noise gs  -ctype kcomp -nd 2000 -sm model_2000
 python pred.py -i bbcdata_prepare/train.corpus  -lm model_2000  -o output/training_2000.txt -e output/tr_embedding.txt
